@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -18,4 +20,7 @@ public class Course {
     private int year;
     @Column(nullable = false)
     private boolean active;
+
+    @OneToMany(mappedBy = "courseIns")
+    private List<CourseStudent> students;
 }
