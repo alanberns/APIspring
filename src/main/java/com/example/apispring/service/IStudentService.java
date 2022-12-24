@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IStudentService {
     public List<StudentDto> obtenerEstudiantes();
+    public boolean agregarEstudiante(StudentDto student);
 }

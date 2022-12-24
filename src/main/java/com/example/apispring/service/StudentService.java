@@ -28,4 +28,14 @@ public class StudentService implements IStudentService{
                 .collect(Collectors.toList());
         return studentDtos;
     }
+
+    @Override
+    public boolean agregarEstudiante(StudentDto student) {
+
+        ObjectMapper mapper = new ObjectMapper();
+        Student s = mapper.convertValue(student, Student.class);
+        studentRepository.save(s);
+        return true;
+    }
+
 }
