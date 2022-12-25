@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ICourseService {
     public List<CourseDto> obtenerCursos();
+    public boolean crearCurso(CourseDto courseDto);
 }

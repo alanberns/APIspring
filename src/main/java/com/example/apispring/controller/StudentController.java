@@ -3,9 +3,7 @@ package com.example.apispring.controller;
 import com.example.apispring.dto.CourseDto;
 import com.example.apispring.service.IStudentService;
 import com.example.apispring.service.StudentService;
-import com.example.apispring.entity.Student;
 import com.example.apispring.dto.StudentDto;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +24,18 @@ public class StudentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<StudentDto> crearEstudiante(@RequestBody StudentDto student){
+    public ResponseEntity<StudentDto> crearEstudiante(@RequestBody StudentDto studentDto){
         //Validar parametros.
-        studentService.agregarEstudiante(student);
-        return new ResponseEntity<StudentDto>(student,HttpStatus.OK);
+        studentService.agregarEstudiante(studentDto);
+        return new ResponseEntity<StudentDto>(studentDto,HttpStatus.OK);
+    }
+    @GetMapping("/search/{dni}")
+    public ResponseEntity<StudentDto> buscarEstudiante(@PathVariable int dni){
+        StudentDto studentDto = studentService.buscarEstudiante(dni);
+        return new ResponseEntity<StudentDto>(studentDto, HttpStatus.OK);
     }
 
+
     //@DeleteMapping
-    //@GetMapping
+
 }

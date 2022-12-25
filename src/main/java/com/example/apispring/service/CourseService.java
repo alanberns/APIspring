@@ -2,6 +2,7 @@ package com.example.apispring.service;
 
 import com.example.apispring.dto.CourseDto;
 import com.example.apispring.entity.Course;
+import com.example.apispring.entity.Student;
 import com.example.apispring.repository.ICourseRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
@@ -29,5 +30,13 @@ public class CourseService implements ICourseService{
                 })
                 .collect(Collectors.toList());
         return coursesDto;
+    }
+
+    @Override
+    public boolean crearCurso(CourseDto courseDto) {
+        ObjectMapper mapper = new ObjectMapper();
+        Course c = mapper.convertValue(courseDto, Course.class);
+        courseRepository.save(c);
+        return true;
     }
 }
