@@ -8,4 +8,8 @@ public interface IStudentService {
     public List<StudentDto> obtenerEstudiantes();
     public boolean agregarEstudiante(StudentDto student);
     public StudentDto buscarEstudiante(int dni);
+
+    StudentDto eliminarEstudiante(StudentDto studentDto);
+
+    StudentDto modificarEstudiante(StudentDto studentDto);
 }

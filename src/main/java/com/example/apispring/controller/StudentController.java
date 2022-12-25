@@ -36,6 +36,17 @@ public class StudentController {
     }
 
 
-    //@DeleteMapping
+    @DeleteMapping("/delete/{dni}")
+    public ResponseEntity<StudentDto> eliminarEstudiante(@PathVariable int dni){
+        //validar parametro
+        StudentDto s = studentService.buscarEstudiante(dni);
+        studentService.eliminarEstudiante(s);
+        return new ResponseEntity<StudentDto>(s, HttpStatus.OK);
+    }
 
+    @PostMapping("/modify/{dni}")
+    public ResponseEntity<StudentDto> modificarEstudiante(@RequestBody StudentDto studentDto){
+        StudentDto s = studentService.modificarEstudiante(studentDto);
+        return new ResponseEntity<StudentDto>(studentDto, HttpStatus.OK);
+    }
 }

@@ -32,10 +32,10 @@ public class StudentService implements IStudentService{
     }
 
     @Override
-    public boolean agregarEstudiante(StudentDto student) {
+    public boolean agregarEstudiante(StudentDto studentDto) {
 
         ObjectMapper mapper = new ObjectMapper();
-        Student s = mapper.convertValue(student, Student.class);
+        Student s = mapper.convertValue(studentDto, Student.class);
         studentRepository.save(s);
         return true;
     }
@@ -51,6 +51,31 @@ public class StudentService implements IStudentService{
         Student s = student.get();
         StudentDto studentDto = mapper.convertValue(s, StudentDto.class);
         return studentDto;
+    }
+
+    @Override
+    public StudentDto eliminarEstudiante(StudentDto studentDto) {
+        studentDto.setActive(false);
+        modificarEstudiante(studentDto);
+        return studentDto;
+    }
+
+    @Override
+    public StudentDto modificarEstudiante(StudentDto studentDto) {
+        Optional <Student> student = studentRepository.findByDni(studentDto.getDni());
+        if (! student.isPresent()){
+            //throw new NotFoundExceptionHandler("No se encontro un usuario");
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        Student s = student.get();
+        s.setActive(studentDto.isActive());
+        s.setDni(studentDto.getDni());
+        s.setFirstName(studentDto.getFirstName());
+        s.setLastName(studentDto.getLastName());
+        studentRepository.save(s);
+        StudentDto sDto = mapper.convertValue(s,StudentDto.class);
+        return sDto;
     }
 
 }
