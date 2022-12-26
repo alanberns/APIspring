@@ -13,4 +13,5 @@ public class CourseDto {
     private String name;
     private int year;
     private boolean active;
+    private int numberId;
 }

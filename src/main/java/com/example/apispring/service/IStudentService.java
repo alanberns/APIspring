@@ -9,7 +9,7 @@ public interface IStudentService {
     public boolean agregarEstudiante(StudentDto student);
     public StudentDto buscarEstudiante(int dni);
 
-    StudentDto eliminarEstudiante(StudentDto studentDto);
+    public StudentDto eliminarEstudiante(StudentDto studentDto);
 
-    StudentDto modificarEstudiante(StudentDto studentDto);
+    public StudentDto modificarEstudiante(StudentDto studentDto);
 }

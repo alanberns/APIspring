@@ -21,6 +21,9 @@ public class Course {
     @Column(nullable = false)
     private boolean active;
 
+    @Column(nullable = false, unique = true)
+    private int numberId;
+
     @OneToMany(mappedBy = "courseIns")
     private List<CourseStudent> students;
 }

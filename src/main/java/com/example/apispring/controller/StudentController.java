@@ -27,26 +27,28 @@ public class StudentController {
     public ResponseEntity<StudentDto> crearEstudiante(@RequestBody StudentDto studentDto){
         //Validar parametros.
         studentService.agregarEstudiante(studentDto);
-        return new ResponseEntity<StudentDto>(studentDto,HttpStatus.OK);
+        return new ResponseEntity<>(studentDto,HttpStatus.OK);
     }
     @GetMapping("/search/{dni}")
     public ResponseEntity<StudentDto> buscarEstudiante(@PathVariable int dni){
+        //validar dni
         StudentDto studentDto = studentService.buscarEstudiante(dni);
-        return new ResponseEntity<StudentDto>(studentDto, HttpStatus.OK);
+        return new ResponseEntity<>(studentDto, HttpStatus.OK);
     }
 
 
     @DeleteMapping("/delete/{dni}")
     public ResponseEntity<StudentDto> eliminarEstudiante(@PathVariable int dni){
-        //validar parametro
+        //validar dni
         StudentDto s = studentService.buscarEstudiante(dni);
         studentService.eliminarEstudiante(s);
-        return new ResponseEntity<StudentDto>(s, HttpStatus.OK);
+        return new ResponseEntity<>(s, HttpStatus.OK);
     }
 
-    @PostMapping("/modify/{dni}")
+    @PostMapping("/modify")
     public ResponseEntity<StudentDto> modificarEstudiante(@RequestBody StudentDto studentDto){
-        StudentDto s = studentService.modificarEstudiante(studentDto);
-        return new ResponseEntity<StudentDto>(studentDto, HttpStatus.OK);
+        //validar datos
+        studentService.modificarEstudiante(studentDto);
+        return new ResponseEntity<>(studentDto, HttpStatus.OK);
     }
 }
