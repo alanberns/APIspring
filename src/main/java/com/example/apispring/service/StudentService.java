@@ -2,6 +2,7 @@ package com.example.apispring.service;
 
 import com.example.apispring.dto.StudentDto;
 import com.example.apispring.entity.Student;
+import com.example.apispring.exception.NotFoundExceptionHandler;
 import com.example.apispring.repository.IStudentRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,12 +42,12 @@ public class StudentService implements IStudentService{
     }
 
     @Override
-    public StudentDto buscarEstudiante(int dni) {
+    public StudentDto buscarEstudiante(int dni) throws NotFoundExceptionHandler {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         Optional<Student> student = studentRepository.findByDni(dni);
         if (! student.isPresent()){
-            //throw new NotFoundExceptionHandler("No se encontro un usuario");
+            throw new NotFoundExceptionHandler("No se encontro un usuario");
         }
         Student s = student.get();
         StudentDto studentDto = mapper.convertValue(s, StudentDto.class);
@@ -54,17 +55,17 @@ public class StudentService implements IStudentService{
     }
 
     @Override
-    public StudentDto eliminarEstudiante(StudentDto studentDto) {
+    public StudentDto eliminarEstudiante(StudentDto studentDto) throws NotFoundExceptionHandler {
         studentDto.setActive(false);
         modificarEstudiante(studentDto);
         return studentDto;
     }
 
     @Override
-    public StudentDto modificarEstudiante(StudentDto studentDto) {
+    public StudentDto modificarEstudiante(StudentDto studentDto) throws NotFoundExceptionHandler {
         Optional <Student> student = studentRepository.findByDni(studentDto.getDni());
         if (! student.isPresent()){
-            //throw new NotFoundExceptionHandler("No se encontro un usuario");
+            throw new NotFoundExceptionHandler("No se encontro un usuario");
         }
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

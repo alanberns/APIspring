@@ -1,5 +1,6 @@
 package com.example.apispring.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +25,7 @@ public class Course {
     @Column(nullable = false, unique = true)
     private int numberId;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "courseIns")
     private List<CourseStudent> students;
 }

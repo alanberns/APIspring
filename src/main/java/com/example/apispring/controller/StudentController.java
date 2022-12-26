@@ -1,6 +1,6 @@
 package com.example.apispring.controller;
 
-import com.example.apispring.dto.CourseDto;
+import com.example.apispring.exception.NotFoundExceptionHandler;
 import com.example.apispring.service.IStudentService;
 import com.example.apispring.service.StudentService;
 import com.example.apispring.dto.StudentDto;
@@ -30,7 +30,7 @@ public class StudentController {
         return new ResponseEntity<>(studentDto,HttpStatus.OK);
     }
     @GetMapping("/search/{dni}")
-    public ResponseEntity<StudentDto> buscarEstudiante(@PathVariable int dni){
+    public ResponseEntity<StudentDto> buscarEstudiante(@PathVariable int dni) throws NotFoundExceptionHandler {
         //validar dni
         StudentDto studentDto = studentService.buscarEstudiante(dni);
         return new ResponseEntity<>(studentDto, HttpStatus.OK);
@@ -38,7 +38,7 @@ public class StudentController {
 
 
     @DeleteMapping("/delete/{dni}")
-    public ResponseEntity<StudentDto> eliminarEstudiante(@PathVariable int dni){
+    public ResponseEntity<StudentDto> eliminarEstudiante(@PathVariable int dni) throws NotFoundExceptionHandler {
         //validar dni
         StudentDto s = studentService.buscarEstudiante(dni);
         studentService.eliminarEstudiante(s);
@@ -46,7 +46,7 @@ public class StudentController {
     }
 
     @PostMapping("/modify")
-    public ResponseEntity<StudentDto> modificarEstudiante(@RequestBody StudentDto studentDto){
+    public ResponseEntity<StudentDto> modificarEstudiante(@RequestBody StudentDto studentDto) throws NotFoundExceptionHandler {
         //validar datos
         studentService.modificarEstudiante(studentDto);
         return new ResponseEntity<>(studentDto, HttpStatus.OK);

@@ -1,13 +1,14 @@
 package com.example.apispring.service;
 
 import com.example.apispring.dto.CourseDto;
+import com.example.apispring.dto.CourseInsDto;
 import com.example.apispring.entity.Course;
+import com.example.apispring.exception.NotFoundExceptionHandler;
 import com.example.apispring.repository.ICourseRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,10 +44,10 @@ public class CourseService implements ICourseService{
     }
 
     @Override
-    public CourseDto mofificarCurso(CourseDto courseDto) {
+    public CourseDto mofificarCurso(CourseDto courseDto) throws NotFoundExceptionHandler {
         Optional<Course> course = courseRepository.findCourseByNumberId(courseDto.getNumberId());
         if (! course.isPresent()){
-            //throw new NotFoundExceptionHandler("No se encontro un curso");
+            throw new NotFoundExceptionHandler("No se encontro un curso");
         }
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
@@ -61,22 +62,35 @@ public class CourseService implements ICourseService{
     }
 
     @Override
-    public CourseDto eliminarCurso(CourseDto courseDto) {
+    public CourseDto eliminarCurso(CourseDto courseDto) throws NotFoundExceptionHandler {
         courseDto.setActive(false);
         mofificarCurso((courseDto));
         return courseDto;
     }
 
     @Override
-    public CourseDto buscarCurso(int numberId) {
+    public CourseDto buscarCurso(int numberId) throws NotFoundExceptionHandler {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         Optional<Course> course = courseRepository.findCourseByNumberId(numberId);
         if (course.isPresent()){
-            //throw new NotFoundExceptionHandler("No se encontro un curso");
+            throw new NotFoundExceptionHandler("No se encontro un curso");
         }
         Course c = course.get();
         CourseDto courseDto = mapper.convertValue(c, CourseDto.class);
         return courseDto;
+    }
+
+    @Override
+    public CourseInsDto obtenerCourseIns(int numberId) throws NotFoundExceptionHandler {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        Optional<Course> optionalCourse = courseRepository.findCourseByNumberId(numberId);
+        if (! optionalCourse.isPresent()){
+            throw new NotFoundExceptionHandler("No se encontro el curso");
+        }
+        Course course = optionalCourse.get();
+        CourseInsDto courseInsDto = mapper.convertValue(course,CourseInsDto.class);
+        return courseInsDto;
     }
 }
