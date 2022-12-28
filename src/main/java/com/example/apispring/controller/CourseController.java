@@ -3,13 +3,11 @@ package com.example.apispring.controller;
 import com.example.apispring.dto.CourseDto;
 import com.example.apispring.dto.CourseInsDto;
 import com.example.apispring.dto.CourseStudentDto;
+import com.example.apispring.dto.StudentInsDto;
 import com.example.apispring.exception.NotFoundExceptionHandler;
-import com.example.apispring.service.CourseStudentService;
-import com.example.apispring.service.ICourseStudentService;
+import com.example.apispring.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import com.example.apispring.service.ICourseService;
-import com.example.apispring.service.CourseService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,10 +18,14 @@ public class CourseController {
 
     private ICourseService courseService;
     private ICourseStudentService courseStudentService;
+    private IStudentService studentService;
 
-    public CourseController(CourseService courseService, CourseStudentService courseStudentService){
+    public CourseController(CourseService courseService,
+                            CourseStudentService courseStudentService,
+                            StudentService studentService){
         this.courseStudentService = courseStudentService;
         this.courseService = courseService;
+        this.studentService = studentService;
     }
 
     @GetMapping("/getCourses")
@@ -65,4 +67,26 @@ public class CourseController {
         List<CourseStudentDto> courseStudentDtos = courseStudentService.obtenerInscripciones(courseInsDto);
         return new ResponseEntity<>(courseStudentDtos,HttpStatus.OK);
     }
+
+    @PostMapping("/enroll")
+    public ResponseEntity<CourseStudentDto> inscribirEstudiante(@RequestBody int dni, int numberId) throws NotFoundExceptionHandler {
+
+        //pedir id del curso a servicecurso
+        CourseInsDto courseInsDto = courseService.obtenerCourseIns(numberId);
+        //pedir id del estudiante a servicestudent
+        StudentInsDto studentInsDto = studentService.obtenerStudentIns(dni);
+        //crear coursestudent
+        courseStudentService.agregarInscripcion(courseInsDto.getId(),studentInsDto.getId());
+        CourseStudentDto courseStudentDto = new CourseStudentDto();
+        courseStudentDto.setDni(dni);
+        courseStudentDto.setYear(courseInsDto.getYear());
+        courseStudentDto.setName(courseInsDto.getName());
+        courseStudentDto.setLastName(studentInsDto.getLastName());
+        courseStudentDto.setFirstName(studentInsDto.getFirstName());
+        return new ResponseEntity<>(courseStudentDto,HttpStatus.OK);
+    }
+
+
+    //eliminar inscripcion
+    //poner nota
 }

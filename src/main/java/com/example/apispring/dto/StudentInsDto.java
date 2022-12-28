@@ -9,8 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CourseInsDto {
+public class StudentInsDto {
     private Long id;
-    private String name;
-    private int year;
+    private String firstName;
+    private String lastName;
 }

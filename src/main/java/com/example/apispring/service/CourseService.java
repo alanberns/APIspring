@@ -36,7 +36,7 @@ public class CourseService implements ICourseService{
     }
 
     @Override
-    public boolean crearCurso(CourseDto courseDto) {
+    public boolean crearCurso(CourseDto courseDto){
         ObjectMapper mapper = new ObjectMapper();
         Course c = mapper.convertValue(courseDto, Course.class);
         courseRepository.save(c);
@@ -44,7 +44,7 @@ public class CourseService implements ICourseService{
     }
 
     @Override
-    public CourseDto mofificarCurso(CourseDto courseDto) throws NotFoundExceptionHandler {
+    public CourseDto mofificarCurso(CourseDto courseDto){
         Optional<Course> course = courseRepository.findCourseByNumberId(courseDto.getNumberId());
         if (! course.isPresent()){
             throw new NotFoundExceptionHandler("No se encontro un curso");
@@ -62,14 +62,14 @@ public class CourseService implements ICourseService{
     }
 
     @Override
-    public CourseDto eliminarCurso(CourseDto courseDto) throws NotFoundExceptionHandler {
+    public CourseDto eliminarCurso(CourseDto courseDto){
         courseDto.setActive(false);
         mofificarCurso((courseDto));
         return courseDto;
     }
 
     @Override
-    public CourseDto buscarCurso(int numberId) throws NotFoundExceptionHandler {
+    public CourseDto buscarCurso(int numberId){
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         Optional<Course> course = courseRepository.findCourseByNumberId(numberId);
@@ -82,7 +82,7 @@ public class CourseService implements ICourseService{
     }
 
     @Override
-    public CourseInsDto obtenerCourseIns(int numberId) throws NotFoundExceptionHandler {
+    public CourseInsDto obtenerCourseIns(int numberId){
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         Optional<Course> optionalCourse = courseRepository.findCourseByNumberId(numberId);
