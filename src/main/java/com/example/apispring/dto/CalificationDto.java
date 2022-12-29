@@ -5,15 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class CourseStudentDto {
-    private String firstName;
-    private String lastName;
-    private int dni;
-    private String name;
-    private int year;
+public class CalificationDto {
+    @Min(value = 0, message = "Ingrese una nota entre 0 y 10")
+    @Max(value = 10, message = "Ingrese una nota entre 0 y 10")
     private int calification;
 }

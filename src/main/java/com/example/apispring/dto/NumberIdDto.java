@@ -5,15 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.PositiveOrZero;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class CourseStudentDto {
-    private String firstName;
-    private String lastName;
-    private int dni;
-    private String name;
-    private int year;
-    private int calification;
+public class NumberIdDto {
+    @PositiveOrZero(message = "Ingrese un numero positivo")
+    private int numberId;
 }
