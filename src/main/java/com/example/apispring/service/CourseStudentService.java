@@ -29,6 +29,12 @@ public class CourseStudentService implements ICourseStudentService{
         this.courseRepository = courseRepository;
         this.studentRepository = studentRepository;
     }
+
+    /**
+     * Obtener estudiantes inscriptos a un curso
+     * @param courseInsDto datos del curso (id privada, nombre, año)
+     * @return datos de las inscripciones al curso
+     */
     @Override
     public List<CourseStudentDto> obtenerInscripciones(CourseInsDto courseInsDto){
         ObjectMapper mapper = new ObjectMapper();
@@ -53,8 +59,14 @@ public class CourseStudentService implements ICourseStudentService{
         return courseStudentDtos;
     }
 
+    /**
+     * Inscribir a un estudiante a un curso
+     * @param id_course id privada del curso
+     * @param id_student id privada del estudiante
+     * @return true
+     */
     @Override
-    public void agregarInscripcion(Long id_course, Long id_student){
+    public boolean agregarInscripcion(Long id_course, Long id_student){
         Optional<Course> course = courseRepository.findById(id_course);
         Optional<Student> student = studentRepository.findById(id_student);
         CourseStudent courseStudent = new CourseStudent();
@@ -69,5 +81,6 @@ public class CourseStudentService implements ICourseStudentService{
         courseStudent.setCourseIns(c);
         courseStudent.setStudentIns(s);
         courseStudentRepository.save(courseStudent);
+        return true;
     }
 }

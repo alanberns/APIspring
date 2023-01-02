@@ -10,7 +10,7 @@ public interface ICourseService {
     public List<CourseDto> obtenerCursos();
     public boolean crearCurso(CourseDto courseDto);
 
-    public CourseDto mofificarCurso(CourseDto courseDto) throws NotFoundExceptionHandler;
+    public CourseDto modificarCurso(CourseDto courseDto) throws NotFoundExceptionHandler;
 
     public CourseDto eliminarCurso(CourseDto courseDto) throws NotFoundExceptionHandler;
 

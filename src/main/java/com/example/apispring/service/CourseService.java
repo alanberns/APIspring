@@ -22,6 +22,10 @@ public class CourseService implements ICourseService{
         this.courseRepository = courseRepository;
     }
 
+    /**
+     * Retorna todos los cursos
+     * @return lista de cursos
+     */
     @Override
     public List<CourseDto> obtenerCursos(){
         ObjectMapper mapper = new ObjectMapper();
@@ -35,6 +39,11 @@ public class CourseService implements ICourseService{
         return coursesDto;
     }
 
+    /**
+     * Crea un nuevo curso
+     * @param courseDto datos del curso
+     * @return devuelve true
+     */
     @Override
     public boolean crearCurso(CourseDto courseDto){
         ObjectMapper mapper = new ObjectMapper();
@@ -43,8 +52,13 @@ public class CourseService implements ICourseService{
         return true;
     }
 
+    /**
+     * Modifica un curso existente
+     * @param courseDto recibe la informacion del curso
+     * @return la informacion del curso actualizada
+     */
     @Override
-    public CourseDto mofificarCurso(CourseDto courseDto){
+    public CourseDto modificarCurso(CourseDto courseDto){
         Optional<Course> course = courseRepository.findCourseByNumberId(courseDto.getNumberId());
         if (! course.isPresent()){
             throw new NotFoundExceptionHandler("No se encontro un curso");
@@ -61,13 +75,23 @@ public class CourseService implements ICourseService{
         return cDto;
     }
 
+    /**
+     * Eliminar un curso
+     * @param numberId Recibe el numero publico de identificacion del curso
+     * @return retorna el curso eliminado
+     */
     @Override
     public CourseDto eliminarCurso(CourseDto courseDto){
         courseDto.setActive(false);
-        mofificarCurso((courseDto));
+        modificarCurso((courseDto));
         return courseDto;
     }
 
+    /**
+     * Busca un curso
+     * @param numberId recibe el numero publico de identificacion del curso
+     * @return Retorna el curso
+     */
     @Override
     public CourseDto buscarCurso(int numberId){
         ObjectMapper mapper = new ObjectMapper();
@@ -81,6 +105,11 @@ public class CourseService implements ICourseService{
         return courseDto;
     }
 
+    /**
+     * Busca un curso
+     * @param numberId recibe el numero publico de identificacion del curso
+     * @return Retorna el curso (id privada)
+     */
     @Override
     public CourseInsDto obtenerCourseIns(int numberId){
         ObjectMapper mapper = new ObjectMapper();

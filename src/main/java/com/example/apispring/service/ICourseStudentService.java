@@ -8,5 +8,5 @@ import java.util.List;
 public interface ICourseStudentService {
     List<CourseStudentDto> obtenerInscripciones(CourseInsDto courseInsDto);
 
-    void agregarInscripcion(Long id_course, Long id_student);
+    boolean agregarInscripcion(Long id_course, Long id_student);
 }

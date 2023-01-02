@@ -20,6 +20,11 @@ public class StudentService implements IStudentService{
     public StudentService(IStudentRepository studentRepository){
         this.studentRepository = studentRepository;
     }
+
+    /**
+     * Obtener la lista de estudiantes
+     * @return lista de estudiantes
+     */
     @Override
     public List<StudentDto> obtenerEstudiantes(){
         ObjectMapper mapper = new ObjectMapper();
@@ -33,6 +38,11 @@ public class StudentService implements IStudentService{
         return studentDtos;
     }
 
+    /**
+     * Crear un nuevo esudiante
+     * @param studentDto datos del estudiante
+     * @return true
+     */
     @Override
     public boolean agregarEstudiante(StudentDto studentDto) {
 
@@ -42,6 +52,11 @@ public class StudentService implements IStudentService{
         return true;
     }
 
+    /**
+     * Buscar un estudiante por dni
+     * @param dni dni del estudiante
+     * @return datos del estudiante
+     */
     @Override
     public StudentDto buscarEstudiante(int dni) {
         ObjectMapper mapper = new ObjectMapper();
@@ -55,6 +70,11 @@ public class StudentService implements IStudentService{
         return studentDto;
     }
 
+    /**
+     * Eliminar un estudiante. Eliminacion logica
+     * @param dni dni del estudiante
+     * @return retorna los datos del estudiante
+     */
     @Override
     public StudentDto eliminarEstudiante(StudentDto studentDto) {
         studentDto.setActive(false);
@@ -62,6 +82,11 @@ public class StudentService implements IStudentService{
         return studentDto;
     }
 
+    /**
+     * Modificar estudiante
+     * @param studentDto datos del estudiante
+     * @return los datos del estudiante
+     */
     @Override
     public StudentDto modificarEstudiante(StudentDto studentDto){
         Optional <Student> student = studentRepository.findByDni(studentDto.getDni());
@@ -80,6 +105,11 @@ public class StudentService implements IStudentService{
         return sDto;
     }
 
+    /**
+     * Buscar un estudiante por dni
+     * @param dni dni del estudiante
+     * @return datos del estudiante (id privada)
+     */
     @Override
     public StudentInsDto obtenerStudentIns(int dni) {
         Optional<Student> student = studentRepository.findByDni(dni);

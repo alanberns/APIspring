@@ -24,21 +24,41 @@ public class CourseController {
         this.studentService = studentService;
     }
 
+    /**
+     * @return devuelve la lista de cursos
+     */
     @GetMapping("/getCourses")
     public ResponseEntity<?> obtenerCursos(){
         return new ResponseEntity<>(courseService.obtenerCursos(), HttpStatus.OK);
     }
+
+    /**
+     * Crea un nuevo curso
+     * @param courseDto datos del curso
+     * @return devuelve la informacion del curso cuando es agregado
+     */
     @PostMapping("/create")
     public ResponseEntity<CourseDto> crearCurso(@Valid @RequestBody CourseDto courseDto){
         courseService.crearCurso(courseDto);
         return new ResponseEntity<>(courseDto,HttpStatus.OK);
     }
+
+    /**
+     * Modifica un curso existente
+     * @param courseDto recibe la informacion del curso
+     * @return la informacion del curso actualizada
+     */
     @PostMapping("/modify")
     public ResponseEntity<CourseDto> modificarCurso(@Valid @RequestBody CourseDto courseDto){
-        courseService.mofificarCurso(courseDto);
+        courseService.modificarCurso(courseDto);
         return new ResponseEntity<>(courseDto, HttpStatus.OK);
     }
 
+    /**
+     * Eliminar un curso
+     * @param numberId Recibe el numero publico de identificacion del curso
+     * @return retorna el curso eliminado
+     */
     @DeleteMapping("/delete/{numberId}")
     public ResponseEntity<CourseDto> eliminarCurso(@Valid @PathVariable NumberIdDto numberId){
         CourseDto courseDto = courseService.buscarCurso(numberId.getNumberId());
@@ -46,12 +66,22 @@ public class CourseController {
         return new ResponseEntity<>(courseDto, HttpStatus.OK);
     }
 
+    /**
+     * Busca un curso
+     * @param numberId recibe el numero publico de identificacion del curso
+     * @return Retorna el curso
+     */
     @GetMapping("/search/{numberId}")
     public ResponseEntity<CourseDto> buscarCurso(@Valid @PathVariable NumberIdDto numberId){
         CourseDto courseDto = courseService.buscarCurso(numberId.getNumberId());
         return new ResponseEntity<>(courseDto, HttpStatus.OK);
     }
 
+    /**
+     * Busca los estudiantes inscriptos a un curso
+     * @param numberId recibe el numero publico de identificacion del curso
+     * @return Retorna una lista con los datos de la inscripcion (estudiante y curso)
+     */
     @GetMapping("/inscriptions/{numberId}")
     public ResponseEntity<List<CourseStudentDto>> obtenerInscriptos(@Valid @PathVariable NumberIdDto numberId){
         //pedir id del curso a service curso
@@ -61,8 +91,14 @@ public class CourseController {
         return new ResponseEntity<>(courseStudentDtos,HttpStatus.OK);
     }
 
+    /**
+     * Inscribir un estudiante a un curso
+     * @param numberId numero publico de identificacion del curso
+     * @param dni numero de dni del estudiante
+     * @return Datos de la inscripcion (estudiante y curso)
+     */
     @PostMapping("/enroll")
-    public ResponseEntity<CourseStudentDto> inscribirEstudiante(@Valid @RequestBody DniDto dni, NumberIdDto numberId){
+    public ResponseEntity<CourseStudentDto> inscribirEstudiante(@Valid @RequestBody NumberIdDto numberId, DniDto dni){
 
         //pedir id del curso a servicecurso
         CourseInsDto courseInsDto = courseService.obtenerCourseIns(numberId.getNumberId());
@@ -80,6 +116,20 @@ public class CourseController {
     }
 
 
+    /**
+     * Elimina la inscripcion de un estudiante en un curso
+     * @param numberId numero publico de identificacion del curso
+     * @param dni numero de dni del estudiante
+     * @return  "inscripcion eliminada"
+     */
     //eliminar inscripcion
+
+    /**
+     * Añadir la nota del estudiante en el curso
+     * @param numberId numero publico de identificacion del curso
+     * @param dni numero de dni del estudiante
+     * @param nota nota del estudiante en el curso
+     * @return
+     */
     //poner nota
 }
