@@ -1,4 +1,4 @@
-package com.example.apispring.dto;
+package com.example.apispring.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class StudentInsDto {
-    private Long id;
+public class CourseStudentDto {
     private String firstName;
     private String lastName;
+    private int dni;
+    private String name;
+    private int year;
+    private int calification;
 }

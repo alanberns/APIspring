@@ -1,7 +1,7 @@
 package com.example.apispring.controller;
 
-import com.example.apispring.dto.DniDto;
-import com.example.apispring.dto.StudentDto;
+import com.example.apispring.dto.request.DniDto;
+import com.example.apispring.dto.response.StudentDto;
 import com.example.apispring.service.IStudentService;
 import com.example.apispring.service.StudentService;
 import org.springframework.http.HttpStatus;

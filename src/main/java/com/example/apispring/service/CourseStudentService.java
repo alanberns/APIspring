@@ -1,7 +1,7 @@
 package com.example.apispring.service;
 
 import com.example.apispring.dto.CourseInsDto;
-import com.example.apispring.dto.CourseStudentDto;
+import com.example.apispring.dto.response.CourseStudentDto;
 import com.example.apispring.entity.Student;
 import com.example.apispring.entity.Course;
 import com.example.apispring.entity.CourseStudent;

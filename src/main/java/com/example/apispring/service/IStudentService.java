@@ -1,6 +1,6 @@
 package com.example.apispring.service;
 
-import com.example.apispring.dto.StudentDto;
+import com.example.apispring.dto.response.StudentDto;
 import com.example.apispring.dto.StudentInsDto;
 
 import java.util.List;

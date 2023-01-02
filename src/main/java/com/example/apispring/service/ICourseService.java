@@ -1,6 +1,6 @@
 package com.example.apispring.service;
 
-import com.example.apispring.dto.CourseDto;
+import com.example.apispring.dto.response.CourseDto;
 import com.example.apispring.dto.CourseInsDto;
 import com.example.apispring.exception.NotFoundExceptionHandler;
 
