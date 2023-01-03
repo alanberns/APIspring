@@ -99,4 +99,16 @@ public class CourseStudentService implements ICourseStudentService{
         courseStudentRepository.save(courseStudent);
         return true;
     }
+
+    @Override
+    public boolean eliminarInscripcion(Long id_course, Long id_student) {
+        Optional<CourseStudent> cs = courseStudentRepository.findFirstByCourseInsIdAndStudentInsId(id_course,id_student);
+        if (! cs.isPresent()){
+            throw new NotFoundExceptionHandler("No se encontro la inscripcion");
+        }
+
+        CourseStudent courseStudent = cs.get();
+        courseStudentRepository.delete(courseStudent);
+        return true;
+    }
 }

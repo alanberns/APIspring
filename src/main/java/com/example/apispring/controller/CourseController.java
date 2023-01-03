@@ -108,6 +108,7 @@ public class CourseController {
      */
     @PostMapping("/enroll")
     public ResponseEntity<CourseStudentDto> inscribirEstudiante(@RequestBody CourseStudentReqDto courseStudentReqDto){
+        //validar datos
         int numberId = courseStudentReqDto.getNumberId();
         int dni = courseStudentReqDto.getDni();
         CustomValidation.validateNumberId(numberId);
@@ -131,18 +132,33 @@ public class CourseController {
 
     /**
      * Elimina la inscripcion de un estudiante en un curso
-     * @param numberId numero publico de identificacion del curso
-     * @param dni numero de dni del estudiante
+     * @param courseStudentReqDto contiene dni y numberId del curso
      * @return  "inscripcion eliminada"
      */
-    //eliminar inscripcion
+    @PostMapping("/inscriptions/delete")
+    public ResponseEntity<String> eliminarInscripcion(@RequestBody CourseStudentReqDto courseStudentReqDto){
+        //validar datos
+        int numberId = courseStudentReqDto.getNumberId();
+        int dni = courseStudentReqDto.getDni();
+        CustomValidation.validateNumberId(numberId);
+        CustomValidation.validateDni(dni);
+
+        //pedir id del curso a servicecurso
+        CourseInsDto courseInsDto = courseService.obtenerCourseIns(numberId);
+        //pedir id del estudiante a servicestudent
+        StudentInsDto studentInsDto = studentService.obtenerStudentIns(dni);
+
+        courseStudentService.eliminarInscripcion(courseInsDto.getId(),studentInsDto.getId());
+
+        return new ResponseEntity<>("Inscripcion eliminada con exito",HttpStatus.OK);
+    }
 
     /**
      * Añadir la nota del estudiante en el curso
      * @param calificationDto contiene: dni, numberId, calificacion
      * @return String
      */
-    @PostMapping("/qualify")
+    @PostMapping("/inscriptions/qualify")
     public ResponseEntity<String> calificar(@RequestBody CalificationDto calificationDto){
         //Validar
         int numberId = calificationDto.getNumberId();
