@@ -107,16 +107,21 @@ public class CourseController {
      * @return Datos de la inscripcion (estudiante y curso)
      */
     @PostMapping("/enroll")
-    public ResponseEntity<CourseStudentDto> inscribirEstudiante(@RequestBody CourseStudentReqDto courseStudentReqDto){
+    public ResponseEntity<CourseStudentDto> inscribirEstudiante(@RequestBody CourseStudentReqDto courseStudentReqDto) {
         //validar datos
         int numberId = courseStudentReqDto.getNumberId();
         int dni = courseStudentReqDto.getDni();
         CustomValidation.validateNumberId(numberId);
         CustomValidation.validateDni(dni);
+
         //pedir id del curso a servicecurso
         CourseInsDto courseInsDto = courseService.obtenerCourseIns(numberId);
         //pedir id del estudiante a servicestudent
         StudentInsDto studentInsDto = studentService.obtenerStudentIns(dni);
+
+        //Comprobar si el estudiante ya esta inscripto
+        courseStudentService.estaInscripto(courseInsDto.getId(),studentInsDto.getId());
+
         //crear coursestudent
         courseStudentService.agregarInscripcion(courseInsDto.getId(),studentInsDto.getId());
         CourseStudentDto courseStudentDto = new CourseStudentDto();

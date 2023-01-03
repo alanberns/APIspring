@@ -16,4 +16,6 @@ public interface ICourseStudentService {
     boolean eliminarInscripcion(Long id_course, Long id_student);
 
     List<CourseStudentDto> obtenerInscripciones(StudentInsDto studentInsDto);
+
+    void estaInscripto(Long id_course, Long id_student);
 }

@@ -128,6 +128,14 @@ public class CourseStudentService implements ICourseStudentService{
     }
 
     @Override
+    public void estaInscripto(Long id_course, Long id_student){
+        Optional<CourseStudent> cs = courseStudentRepository.findFirstByCourseInsIdAndStudentInsId(id_course,id_student);
+        if (cs.isPresent()){
+            throw new NotFoundExceptionHandler("El estudiante ya se encuentra inscripto");
+        }
+    }
+
+    @Override
     public boolean agregarNota(Long id_course, Long id_student, int calification) {
         Optional<CourseStudent> cs = courseStudentRepository.findFirstByCourseInsIdAndStudentInsId(id_course,id_student);
         if (! cs.isPresent()){
