@@ -82,6 +82,20 @@ public class CourseStudentService implements ICourseStudentService{
         Student s = student.get();
         courseStudent.setCourseIns(c);
         courseStudent.setStudentIns(s);
+        courseStudent.setCalification(-1);
+        courseStudentRepository.save(courseStudent);
+        return true;
+    }
+
+    @Override
+    public boolean agregarNota(Long id_course, Long id_student, int calification) {
+        Optional<CourseStudent> cs = courseStudentRepository.findFirstByCourseInsIdAndStudentInsId(id_course,id_student);
+        if (! cs.isPresent()){
+            throw new NotFoundExceptionHandler("No se encontro la inscripcion");
+        }
+
+        CourseStudent courseStudent = cs.get();
+        courseStudent.setCalification(calification);
         courseStudentRepository.save(courseStudent);
         return true;
     }

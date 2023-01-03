@@ -76,14 +76,14 @@ public class CourseService implements ICourseService{
     }
 
     /**
-     * Eliminar un curso
-     * @param numberId Recibe el numero publico de identificacion del curso
+     * Eliminar un curso (cambia estado activo a false)
+     * @param courseDto Recibe el curso a eliminar  logicamente
      * @return retorna el curso eliminado
      */
     @Override
     public CourseDto eliminarCurso(CourseDto courseDto){
         courseDto.setActive(false);
-        modificarCurso((courseDto));
+        modificarCurso(courseDto);
         return courseDto;
     }
 

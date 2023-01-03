@@ -2,6 +2,8 @@ package com.example.apispring.controller;
 
 import com.example.apispring.dto.CourseInsDto;
 import com.example.apispring.dto.StudentInsDto;
+import com.example.apispring.dto.request.CalificationDto;
+import com.example.apispring.dto.request.CourseStudentReqDto;
 import com.example.apispring.dto.response.CourseDto;
 import com.example.apispring.dto.response.CourseStudentDto;
 import com.example.apispring.service.*;
@@ -101,12 +103,13 @@ public class CourseController {
 
     /**
      * Inscribir un estudiante a un curso
-     * @param numberId numero publico de identificacion del curso
-     * @param dni numero de dni del estudiante
+     * @param courseStudentReqDto contiene dni y numberId
      * @return Datos de la inscripcion (estudiante y curso)
      */
     @PostMapping("/enroll")
-    public ResponseEntity<CourseStudentDto> inscribirEstudiante(@RequestBody int numberId, int dni){
+    public ResponseEntity<CourseStudentDto> inscribirEstudiante(@RequestBody CourseStudentReqDto courseStudentReqDto){
+        int numberId = courseStudentReqDto.getNumberId();
+        int dni = courseStudentReqDto.getDni();
         CustomValidation.validateNumberId(numberId);
         CustomValidation.validateDni(dni);
         //pedir id del curso a servicecurso
@@ -136,11 +139,26 @@ public class CourseController {
 
     /**
      * Añadir la nota del estudiante en el curso
-     * @param numberId numero publico de identificacion del curso
-     * @param dni numero de dni del estudiante
-     * @param nota nota del estudiante en el curso
-     * @return
+     * @param calificationDto contiene: dni, numberId, calificacion
+     * @return String
      */
-    //poner nota
+    @PostMapping("/qualify")
+    public ResponseEntity<String> calificar(@RequestBody CalificationDto calificationDto){
+        //Validar
+        int numberId = calificationDto.getNumberId();
+        int dni = calificationDto.getDni();
+        int calification = calificationDto.getCalification();
+        CustomValidation.validateNumberId(numberId);
+        CustomValidation.validateDni(dni);
+        CustomValidation.validateCalification(calification);
+
+        //pedir id del curso a servicecurso
+        CourseInsDto courseInsDto = courseService.obtenerCourseIns(numberId);
+        //pedir id del estudiante a servicestudent
+        StudentInsDto studentInsDto = studentService.obtenerStudentIns(dni);
+        //Calificar
+        courseStudentService.agregarNota(courseInsDto.getId(),studentInsDto.getId(),calification);
+        return new ResponseEntity<>("Nota guardada con exito",HttpStatus.OK);
+    }
 
 }

@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface ICourseStudentRepository extends JpaRepository<CourseStudent,Long> {
 
     Optional<List<CourseStudent>> findByCourseInsId(Long id);
+
+    Optional<CourseStudent> findFirstByCourseInsIdAndStudentInsId(Long id_course, Long id_student);
 }

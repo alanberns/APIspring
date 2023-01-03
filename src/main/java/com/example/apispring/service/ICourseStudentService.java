@@ -9,4 +9,5 @@ public interface ICourseStudentService {
     List<CourseStudentDto> obtenerInscripciones(CourseInsDto courseInsDto);
 
     boolean agregarInscripcion(Long id_course, Long id_student);
+    boolean agregarNota(Long id_course, Long id_student, int calification);
 }
