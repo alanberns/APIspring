@@ -1,6 +1,10 @@
 package com.example.apispring.controller;
 
+import com.example.apispring.dto.StudentInsDto;
+import com.example.apispring.dto.response.CourseStudentDto;
 import com.example.apispring.dto.response.StudentDto;
+import com.example.apispring.service.CourseStudentService;
+import com.example.apispring.service.ICourseStudentService;
 import com.example.apispring.service.IStudentService;
 import com.example.apispring.service.StudentService;
 import com.example.apispring.utils.CustomValidation;
@@ -9,15 +13,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/students")
 public class StudentController {
 
     private IStudentService studentService;
+    private ICourseStudentService courseStudentService;
 
-    public StudentController(StudentService studentService){
+    public StudentController(StudentService studentService, CourseStudentService courseStudentService){
         this.studentService = studentService;
+        this.courseStudentService = courseStudentService;
     }
 
     /**
@@ -81,5 +88,16 @@ public class StudentController {
      * @param dni dni del estudiante
      * @return lista de cursos del estudiante
      */
-    //inscripciones
+    @GetMapping("/getInscriptions/{dni}")
+    public ResponseEntity<List<CourseStudentDto>> getInscripciones(@PathVariable int dni){
+        //validar dni
+        CustomValidation.validateDni(dni);
+
+        //pedir id del estudiante
+        StudentInsDto studentInsDto = studentService.obtenerStudentIns(dni);
+
+        //pedir inscripciones a courseStudentService
+        List<CourseStudentDto> courseStudentDtoList = courseStudentService.obtenerInscripciones(studentInsDto);
+        return new ResponseEntity<>(courseStudentDtoList,HttpStatus.OK);
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.apispring.service;
 
 import com.example.apispring.dto.CourseInsDto;
+import com.example.apispring.dto.StudentInsDto;
 import com.example.apispring.dto.response.CourseStudentDto;
 import com.example.apispring.entity.Course;
 import com.example.apispring.entity.CourseStudent;
@@ -60,6 +61,45 @@ public class CourseStudentService implements ICourseStudentService{
                 .collect(Collectors.toList());
         return courseStudentDtos;
     }
+
+    /**
+     * Obtener cursos a los que esta inscripto el estudiante
+     * @param studentInsDto contiene el id del estudiante
+     * @return datos de las inscripciones del estudiante
+     */
+    @Override
+    public List<CourseStudentDto> obtenerInscripciones(StudentInsDto studentInsDto){
+        Optional<List<CourseStudent>> courseStudents = courseStudentRepository.findByStudentInsId(studentInsDto.getId());
+        if (! courseStudents.isPresent()){
+            throw new NotFoundExceptionHandler("No se encontraron inscripciones");
+        }
+        List<CourseStudent> cs = courseStudents.get();
+        if (cs.isEmpty()){
+            throw new NotFoundExceptionHandler("No se encontraron inscripciones");
+        }
+
+        List<CourseStudentDto> courseStudentDtos = cs
+                .stream()
+                .map( courseStudent -> {
+                    Optional<Course> course = courseRepository.findById(courseStudent.getCourseIns().getId());
+                    if ( ! course.isPresent()){
+                        throw new NotFoundExceptionHandler("No se encontro el curso");
+                    }
+                    Course c = course.get();
+                    CourseStudentDto courseStudentDto = new CourseStudentDto();
+                    courseStudentDto.setCalification(courseStudent.getCalification());
+                    courseStudentDto.setYear(c.getYear());
+                    courseStudentDto.setName(c.getName());
+                    courseStudentDto.setLastName(courseStudent.getStudentIns().getLastName());
+                    courseStudentDto.setFirstName(courseStudent.getStudentIns().getFirstName());
+                    courseStudentDto.setDni(courseStudent.getStudentIns().getDni());
+                    return courseStudentDto;
+                })
+                .collect(Collectors.toList());
+        return courseStudentDtos;
+
+    }
+
 
     /**
      * Inscribir a un estudiante a un curso

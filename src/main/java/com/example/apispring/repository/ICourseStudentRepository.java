@@ -12,5 +12,7 @@ public interface ICourseStudentRepository extends JpaRepository<CourseStudent,Lo
 
     Optional<List<CourseStudent>> findByCourseInsId(Long id);
 
+    Optional<List<CourseStudent>> findByStudentInsId(Long id);
+
     Optional<CourseStudent> findFirstByCourseInsIdAndStudentInsId(Long id_course, Long id_student);
 }
