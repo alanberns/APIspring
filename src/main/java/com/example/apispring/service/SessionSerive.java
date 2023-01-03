@@ -3,6 +3,7 @@ package com.example.apispring.service;
 import com.example.apispring.dto.request.UserRequestDto;
 import com.example.apispring.dto.response.UserResponseDto;
 import com.example.apispring.entity.User;
+import com.example.apispring.exception.NotFoundExceptionHandler;
 import com.example.apispring.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -16,6 +17,7 @@ import java.time.ZoneId;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.example.apispring.utils.CONSTATNS.SECRET_KEY_TOKEN;
@@ -33,9 +35,12 @@ public class SessionSerive implements ISessionService{
     @Override
     public UserResponseDto login (UserRequestDto user){
         String username = user.getUsername();
-        User usuario = userRepository.findByUsernameAndPassword(username,user.getPassword())
-                .orElseThrow();
+        Optional<User> u = userRepository.findByUsernameAndPassword(username,user.getPassword());
+        if (! u.isPresent()){
+            throw new NotFoundExceptionHandler("usuario o contraseña incorrecta");
+        }
 
+        User usuario = u.get();
         List<String> roles = usuario.getRoles()
                 .stream()
                 .map(rol -> rol.getRol().getText())

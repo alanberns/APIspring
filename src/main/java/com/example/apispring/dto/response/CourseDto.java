@@ -18,7 +18,7 @@ public class CourseDto {
     @Min(value = 1990, message = "Ingrese un año mayor a 1990")
     @Max(value = 2200, message = "Ingrese un año menor a 2200")
     private int year;
-    @NotEmpty(message = "True/False")
+    @NotNull
     private boolean active;
     @PositiveOrZero(message = "Ingrese un numero positivo")
     private int numberId;
