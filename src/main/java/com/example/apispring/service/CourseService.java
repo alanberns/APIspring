@@ -97,7 +97,7 @@ public class CourseService implements ICourseService{
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         Optional<Course> course = courseRepository.findCourseByNumberId(numberId);
-        if (course.isPresent()){
+        if (! course.isPresent()){
             throw new NotFoundExceptionHandler("No se encontro el curso");
         }
         Course c = course.get();

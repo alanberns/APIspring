@@ -21,12 +21,12 @@ public class CourseStudent {
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference(value = "course-cs")
     private Course courseIns;
 
     @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference(value = "student-cs")
     private Student studentIns;
 
     @Column()

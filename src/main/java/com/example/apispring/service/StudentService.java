@@ -72,7 +72,7 @@ public class StudentService implements IStudentService{
 
     /**
      * Eliminar un estudiante. Eliminacion logica
-     * @param dni dni del estudiante
+     * @param studentDto recibe al estudiante(dni)
      * @return retorna los datos del estudiante
      */
     @Override

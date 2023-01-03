@@ -29,7 +29,7 @@ public class Student {
     private boolean active;
 
     @OneToMany(mappedBy = "studentIns")
-    @JsonManagedReference
+    @JsonManagedReference(value = "student-cs")
     private List<CourseStudent> courses;
 
 }

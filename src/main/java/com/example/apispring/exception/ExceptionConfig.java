@@ -20,6 +20,12 @@ public class ExceptionConfig {
         return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ValueNotValidException.class)
+    public ResponseEntity<?>invalidValue(ValueNotValidException e){
+        ErrorDto errorDto = new ErrorDto(400,e.getMessage());
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> validacionErronea(MethodArgumentNotValidException ex){
 

@@ -2,17 +2,17 @@ package com.example.apispring.service;
 
 import com.example.apispring.dto.CourseInsDto;
 import com.example.apispring.dto.response.CourseStudentDto;
-import com.example.apispring.entity.Student;
 import com.example.apispring.entity.Course;
 import com.example.apispring.entity.CourseStudent;
+import com.example.apispring.entity.Student;
 import com.example.apispring.exception.NotFoundExceptionHandler;
 import com.example.apispring.repository.ICourseRepository;
 import com.example.apispring.repository.ICourseStudentRepository;
 import com.example.apispring.repository.IStudentRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,12 +37,14 @@ public class CourseStudentService implements ICourseStudentService{
      */
     @Override
     public List<CourseStudentDto> obtenerInscripciones(CourseInsDto courseInsDto){
-        ObjectMapper mapper = new ObjectMapper();
         Optional<List<CourseStudent>> courseStudents = courseStudentRepository.findByCourseInsId(courseInsDto.getId());
         if (! courseStudents.isPresent()){
             throw new NotFoundExceptionHandler("No se encontraron inscripciones");
         }
         List<CourseStudent> cs = courseStudents.get();
+        if (cs.isEmpty()){
+            throw new NotFoundExceptionHandler("No se encontraron inscripciones");
+        }
         List<CourseStudentDto> courseStudentDtos = cs
                 .stream()
                 .map( courseStudent -> {

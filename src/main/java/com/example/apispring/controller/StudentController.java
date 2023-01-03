@@ -1,9 +1,9 @@
 package com.example.apispring.controller;
 
-import com.example.apispring.dto.request.DniDto;
 import com.example.apispring.dto.response.StudentDto;
 import com.example.apispring.service.IStudentService;
 import com.example.apispring.service.StudentService;
+import com.example.apispring.utils.CustomValidation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,8 +46,9 @@ public class StudentController {
      * @return datos del estudiante
      */
     @GetMapping("/search/{dni}")
-    public ResponseEntity<StudentDto> buscarEstudiante(@Valid @PathVariable DniDto dni) {
-        StudentDto studentDto = studentService.buscarEstudiante(dni.getDni());
+    public ResponseEntity<StudentDto> buscarEstudiante(@PathVariable int dni) {
+        CustomValidation.validateDni(dni);
+        StudentDto studentDto = studentService.buscarEstudiante(dni);
         return new ResponseEntity<>(studentDto, HttpStatus.OK);
     }
 
@@ -57,8 +58,9 @@ public class StudentController {
      * @return retorna los datos del estudiante
      */
     @DeleteMapping("/delete/{dni}")
-    public ResponseEntity<StudentDto> eliminarEstudiante(@Valid @PathVariable DniDto dni) {
-        StudentDto s = studentService.buscarEstudiante(dni.getDni());
+    public ResponseEntity<StudentDto> eliminarEstudiante(@PathVariable int dni) {
+        CustomValidation.validateDni(dni);
+        StudentDto s = studentService.buscarEstudiante(dni);
         studentService.eliminarEstudiante(s);
         return new ResponseEntity<>(s, HttpStatus.OK);
     }

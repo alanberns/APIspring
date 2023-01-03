@@ -29,7 +29,7 @@ public class Course {
     @Column(nullable = false, unique = true)
     private int numberId;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "course-cs")
     @OneToMany(mappedBy = "courseIns")
     private List<CourseStudent> students;
 }

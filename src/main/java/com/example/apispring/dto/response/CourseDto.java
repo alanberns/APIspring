@@ -20,6 +20,6 @@ public class CourseDto {
     private int year;
     @NotNull
     private boolean active;
-    @PositiveOrZero(message = "Ingrese un numero positivo")
+    @Positive(message = "Ingrese un numero positivo")
     private int numberId;
 }
