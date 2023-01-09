@@ -32,6 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .hasAnyAuthority("OPERATOR")
                 .antMatchers("/login")
                 .permitAll();
+        http.headers().frameOptions().disable();
     }
 
     /**

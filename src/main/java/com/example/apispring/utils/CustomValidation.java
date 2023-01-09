@@ -10,7 +10,7 @@ public class CustomValidation {
      * @throws "ValueNotValidException"
      */
     public static void validateNumberId(int numberId){
-        if (numberId < 0){
+        if (numberId <= 0){
             throw new ValueNotValidException("El numero debe ser mayor a 0");
         }
     }
@@ -21,7 +21,7 @@ public class CustomValidation {
      * @throws "ValueNotValidException"
      */
     public static void validateDni(int dni){
-        if (dni < 1000000 && dni > 100000000){
+        if (dni < 1000000 || dni > 100000000){
             throw new ValueNotValidException("Ingrese un dni valido");
         }
     }
@@ -32,7 +32,7 @@ public class CustomValidation {
      * @throws "ValueNotValidException"
      */
     public static void validateCalification(int calification){
-        if (calification < 0 && calification > 10){
+        if (calification < 0 || calification > 10){
             throw new ValueNotValidException("Ingrese una nota entre 0 y 10");
         }
     }

@@ -24,11 +24,10 @@ public class CourseService implements ICourseService{
 
     /**
      * Retorna todos los cursos
-     * @return lista de cursos
+     * @return List<CourseDto>
      */
     @Override
     public List<CourseDto> obtenerCursos(){
-        ObjectMapper mapper = new ObjectMapper();
         List<Course>courses = courseRepository.findAll();
         List<CourseDto>coursesDto = courses
                 .stream()
@@ -42,7 +41,7 @@ public class CourseService implements ICourseService{
     /**
      * Crea un nuevo curso
      * @param courseDto datos del curso
-     * @return devuelve true
+     * @return true
      */
     @Override
     public boolean crearCurso(CourseDto courseDto){
@@ -55,7 +54,7 @@ public class CourseService implements ICourseService{
     /**
      * Modifica un curso existente
      * @param courseDto recibe la informacion del curso
-     * @return la informacion del curso actualizada
+     * @return CourseDto
      */
     @Override
     public CourseDto modificarCurso(CourseDto courseDto){
@@ -78,7 +77,7 @@ public class CourseService implements ICourseService{
     /**
      * Eliminar un curso (cambia estado activo a false)
      * @param courseDto Recibe el curso a eliminar  logicamente
-     * @return retorna el curso eliminado
+     * @return CourseDto
      */
     @Override
     public CourseDto eliminarCurso(CourseDto courseDto){
@@ -90,7 +89,7 @@ public class CourseService implements ICourseService{
     /**
      * Busca un curso
      * @param numberId recibe el numero publico de identificacion del curso
-     * @return Retorna el curso
+     * @return CourseDto
      */
     @Override
     public CourseDto buscarCurso(int numberId){
@@ -108,7 +107,7 @@ public class CourseService implements ICourseService{
     /**
      * Busca un curso
      * @param numberId recibe el numero publico de identificacion del curso
-     * @return Retorna el curso (id privada)
+     * @return CourseInsDto (id privada,name,year)
      */
     @Override
     public CourseInsDto obtenerCourseIns(int numberId){

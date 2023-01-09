@@ -23,11 +23,11 @@ import java.util.stream.Collectors;
 import static com.example.apispring.utils.CONSTATNS.SECRET_KEY_TOKEN;
 
 @Service
-public class SessionSerive implements ISessionService{
+public class SessionService implements ISessionService{
 
     private final UserRepository userRepository;
 
-    public SessionSerive(UserRepository userRepository){
+    public SessionService(UserRepository userRepository){
         this.userRepository = userRepository;
     }
 

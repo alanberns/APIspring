@@ -23,11 +23,10 @@ public class StudentService implements IStudentService{
 
     /**
      * Obtener la lista de estudiantes
-     * @return lista de estudiantes
+     * @return List<StudentDto>
      */
     @Override
     public List<StudentDto> obtenerEstudiantes(){
-        ObjectMapper mapper = new ObjectMapper();
         List<Student> students = studentRepository.findAll();
         List<StudentDto> studentDtos = students
                 .stream()
@@ -55,7 +54,8 @@ public class StudentService implements IStudentService{
     /**
      * Buscar un estudiante por dni
      * @param dni dni del estudiante
-     * @return datos del estudiante
+     * @throws NotFoundExceptionHandler
+     * @return StudentDto
      */
     @Override
     public StudentDto buscarEstudiante(int dni) {
@@ -63,7 +63,7 @@ public class StudentService implements IStudentService{
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         Optional<Student> student = studentRepository.findByDni(dni);
         if (! student.isPresent()){
-            throw new NotFoundExceptionHandler("No se encontro un usuario");
+            throw new NotFoundExceptionHandler("No se encontro al estudiante");
         }
         Student s = student.get();
         StudentDto studentDto = mapper.convertValue(s, StudentDto.class);
@@ -73,7 +73,7 @@ public class StudentService implements IStudentService{
     /**
      * Eliminar un estudiante. Eliminacion logica
      * @param studentDto recibe al estudiante(dni)
-     * @return retorna los datos del estudiante
+     * @return StudentDto
      */
     @Override
     public StudentDto eliminarEstudiante(StudentDto studentDto) {
@@ -85,13 +85,13 @@ public class StudentService implements IStudentService{
     /**
      * Modificar estudiante
      * @param studentDto datos del estudiante
-     * @return los datos del estudiante
+     * @return StudentDto
      */
     @Override
     public StudentDto modificarEstudiante(StudentDto studentDto){
         Optional <Student> student = studentRepository.findByDni(studentDto.getDni());
         if (! student.isPresent()){
-            throw new NotFoundExceptionHandler("No se encontro un usuario");
+            throw new NotFoundExceptionHandler("No se encontro al estudiante");
         }
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -108,13 +108,13 @@ public class StudentService implements IStudentService{
     /**
      * Buscar un estudiante por dni
      * @param dni dni del estudiante
-     * @return datos del estudiante (id privada)
+     * @return StudentInsDto (id privada,nombre y apellido)
      */
     @Override
     public StudentInsDto obtenerStudentIns(int dni) {
         Optional<Student> student = studentRepository.findByDni(dni);
         if (! student.isPresent()){
-            throw new NotFoundExceptionHandler("No se encontro un usuario");
+            throw new NotFoundExceptionHandler("No se encontro al estudiante");
         }
         Student s = student.get();
         return new StudentInsDto(s.getId(),s.getFirstName(),s.getLastName());

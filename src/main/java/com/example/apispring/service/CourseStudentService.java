@@ -34,7 +34,7 @@ public class CourseStudentService implements ICourseStudentService{
     /**
      * Obtener estudiantes inscriptos a un curso
      * @param courseInsDto datos del curso (id privada, nombre, año)
-     * @return datos de las inscripciones al curso
+     * @return List<CourseStudentDto> (calificacion,nombreCurso,nombre y apellido,dni)
      */
     @Override
     public List<CourseStudentDto> obtenerInscripciones(CourseInsDto courseInsDto){
@@ -65,7 +65,7 @@ public class CourseStudentService implements ICourseStudentService{
     /**
      * Obtener cursos a los que esta inscripto el estudiante
      * @param studentInsDto contiene el id del estudiante
-     * @return datos de las inscripciones del estudiante
+     * @return List<CourseStudentDto> (calificacion,nombreCurso,nombre y apellido,dni)
      */
     @Override
     public List<CourseStudentDto> obtenerInscripciones(StudentInsDto studentInsDto){
@@ -127,6 +127,12 @@ public class CourseStudentService implements ICourseStudentService{
         return true;
     }
 
+    /**
+     * Cheque si existe una inscripcion de un estudiante en un curso
+     * @param id_course id del curso
+     * @param id_student id del estudiante
+     * throws NotFoundException si encuentra la inscripcion
+     */
     @Override
     public void estaInscripto(Long id_course, Long id_student){
         Optional<CourseStudent> cs = courseStudentRepository.findFirstByCourseInsIdAndStudentInsId(id_course,id_student);
@@ -135,6 +141,14 @@ public class CourseStudentService implements ICourseStudentService{
         }
     }
 
+    /**
+     * Añade la nota a la inscripcion
+     * @param id_course id del curso
+     * @param id_student id del estudiante
+     * @param calification nota
+     * @throws NotFoundExceptionHandler
+     * @return true
+     */
     @Override
     public boolean agregarNota(Long id_course, Long id_student, int calification) {
         Optional<CourseStudent> cs = courseStudentRepository.findFirstByCourseInsIdAndStudentInsId(id_course,id_student);
@@ -148,6 +162,13 @@ public class CourseStudentService implements ICourseStudentService{
         return true;
     }
 
+    /**
+     * Elimina una inscripcion
+     * @param id_course id del curso
+     * @param id_student id del estudiante
+     * @throws NotFoundExceptionHandler
+     * @return true
+     */
     @Override
     public boolean eliminarInscripcion(Long id_course, Long id_student) {
         Optional<CourseStudent> cs = courseStudentRepository.findFirstByCourseInsIdAndStudentInsId(id_course,id_student);
